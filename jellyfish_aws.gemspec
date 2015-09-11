@@ -17,12 +17,12 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'LICENSE', 'Rakefile', 'README.rdoc']
 
   s.test_files = Dir['spec/**/*']
-  s.add_dependency 'rails', '~> 4.2.3'
-  s.add_dependency 'fog-aws'
-  s.add_dependency 'bcrypt'
+  s.add_dependency 'rails', '~> 4.2'
+  s.add_dependency 'fog-aws', '~> 0.7'
+  s.add_dependency 'bcrypt', '~> 3.1'
 
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'factory_girl_rails'
-  s.add_development_dependency 'database_cleaner'
-  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rspec-rails', '~> 3.3'
+  s.add_development_dependency 'factory_girl_rails', '~> 4.5'
+  s.add_development_dependency 'database_cleaner', '~> 1.4'
+  s.add_development_dependency 'rubocop', '~> 0.34'
 end
