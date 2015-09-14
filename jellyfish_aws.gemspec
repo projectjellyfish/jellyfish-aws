@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = 'Adds AWS S3, EC2, RDS products to Jellyfish'
   s.license     = 'MIT'
 
-  s.files = Dir['{app,config,db,lib}/**/*', 'LICENSE', 'Rakefile', 'README.rdoc']
+  s.files = Dir['{app,config,db,lib,public}/**/*', 'LICENSE', 'Rakefile', 'README.rdoc']
 
   s.test_files = Dir['spec/**/*']
   s.add_dependency 'rails', '~> 4.2'
