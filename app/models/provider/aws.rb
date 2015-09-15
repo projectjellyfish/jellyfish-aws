@@ -1,4 +1,4 @@
-class Provider
+class Provider < ActiveRecord::Base
   class Aws < Provider
     def ec2_flavors
       client.flavors.map do |f|

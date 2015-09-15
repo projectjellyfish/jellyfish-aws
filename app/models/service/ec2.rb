@@ -1,4 +1,4 @@
-class Service
+class Service < ActiveRecord::Base
   class Ec2 < Service::Compute
     def actions
       actions = super.merge :terminate

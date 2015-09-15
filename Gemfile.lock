@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jellyfish-aws (0.0.1)
+    jellyfish-aws (0.0.2)
       bcrypt (~> 3.1)
       fog-aws (~> 0.7)
       rails (~> 4.2)

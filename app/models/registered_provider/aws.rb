@@ -1,4 +1,4 @@
-class RegisteredProvider
+class RegisteredProvider < ActiveRecord::Base
   class Aws < RegisteredProvider
     def self.load_registered_providers
       return unless super
