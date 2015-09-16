@@ -1,17 +1,17 @@
 class AwsPolicy < ApplicationPolicy
   def ec2_flavors?
-    any_user!
+    logged_in?
   end
 
   def ec2_images?
-    any_user!
+    logged_in?
   end
 
   def subnets?
-    any_user!
+    logged_in?
   end
 
   def availability_zones?
-    any_user!
+    logged_in?
   end
 end
