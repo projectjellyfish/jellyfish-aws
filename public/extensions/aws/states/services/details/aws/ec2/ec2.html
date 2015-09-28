@@ -1,0 +1,13 @@
+<content-header short="true">
+  <div class="content-header__body">
+    <img ng-if="vm.product.img" class="content-header__icon" ng-src="images/assets/{{ ::vm.product.img }}"/>
+    <span class="content-header__title">{{ ::vm.service.product.name }}</span>
+  </div>
+  <div class="content-header__aside">
+    <back-link></back-link>
+  </div>
+</content-header>
+
+<service-basic-details service="vm.service"></service-basic-details>
+
+<div>This is the Ec2 override template placeholder</div>

@@ -66,7 +66,8 @@ module JellyfishAws
         requires_jellyfish '>= 4.0.0'
 
         load_scripts 'extensions/aws/components/forms/fields.config.js',
-          'extensions/aws/resources/aws-data.factory.js'
+          'extensions/aws/resources/aws-data.factory.js',
+          'extensions/aws/states/services/details/aws/ec2/ec2.state.js'
 
         mount_extension JellyfishAws::Engine, at: :aws
       end
