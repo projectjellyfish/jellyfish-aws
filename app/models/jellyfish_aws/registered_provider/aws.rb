@@ -1,5 +1,5 @@
 module JellyfishAws
-  class RegisteredProvider < ActiveRecord::Base
+  module RegisteredProvider
     class Aws < ::RegisteredProvider
       def self.load_registered_providers
         return unless super

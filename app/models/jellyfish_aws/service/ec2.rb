@@ -1,5 +1,5 @@
 module JellyfishAws
-  class Service < ActiveRecord::Base
+  module Service
     class Ec2 < ::Service::Compute
       def actions
         actions = super.merge :terminate

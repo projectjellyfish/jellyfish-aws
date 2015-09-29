@@ -1,5 +1,5 @@
 module JellyfishAws
-  class ProductType < ActiveRecord::Base
+  module ProductType
     class Ec2 < ::ProductType
       def self.load_product_types
         return unless super

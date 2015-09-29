@@ -24,8 +24,8 @@ module JellyfishAws
 
     initializer 'jellyfish_aws.load_default_settings', :before => :load_config_initializers do
       begin
-        if Setting.table_exists?
-          Dir[File.expand_path '../../../app/models/setting/*.rb', __FILE__].each do |file|
+        if ::Setting.table_exists?
+          Dir[File.expand_path '../../../app/models/jellyfish_aws/setting/*.rb', __FILE__].each do |file|
             require_dependency file
           end
         end
@@ -37,8 +37,8 @@ module JellyfishAws
 
     initializer 'jellyfish_aws.load_product_types', :before => :load_config_initializers do
       begin
-        if ProductType.table_exists?
-          Dir[File.expand_path '../../../app/models/product_type/*.rb', __FILE__].each do |file|
+        if ::ProductType.table_exists?
+          Dir[File.expand_path '../../../app/models/jellyfish_aws/product_type/*.rb', __FILE__].each do |file|
             require_dependency file
           end
         end
@@ -50,8 +50,8 @@ module JellyfishAws
 
     initializer 'jellyfish_aws.load_registered_providers', :before => :load_config_initializers do
       begin
-        if RegisteredProvider.table_exists?
-          Dir[File.expand_path '../../../app/models/registered_provider/*', __FILE__].each do |file|
+        if ::RegisteredProvider.table_exists?
+          Dir[File.expand_path '../../../app/models/jellyfish_aws/registered_provider/*', __FILE__].each do |file|
             require_dependency file
           end
         end

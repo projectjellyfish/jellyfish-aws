@@ -1,5 +1,5 @@
 module JellyfishAws
-  class Provider < ActiveRecord::Base
+  module Provider
     class Aws < ::Provider
       def ec2_flavors
         client.flavors.map do |f|
