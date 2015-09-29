@@ -25,7 +25,7 @@ module JellyfishAws
     private
 
     def provider
-      @provider ||= Provider.find params[:id]
+      @provider ||= ::Provider.find params[:id]
     end
   end
 end
