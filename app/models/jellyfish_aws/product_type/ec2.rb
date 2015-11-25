@@ -25,7 +25,9 @@ module JellyfishAws
         [
           { name: :flavor_id, value_type: :string, field: :aws_ec2_flavors, required: true },
           { name: :image_id, value_type: :string, field: :aws_ec2_images, required: true },
-          { name: :subnet_id, value_type: :string, field: :aws_subnets, required: true }
+          { name: :subnet_id, value_type: :string, field: :aws_subnets, required: true },
+          { name: :key_name, value_type: :string, field: :aws_key_names, required: true },
+          { name: :security_group_id, value_type: :string, field: :aws_security_groups, required: true }
         ]
       end
 

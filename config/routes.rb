@@ -5,6 +5,8 @@ JellyfishAws::Engine.routes.draw do
       get :ec2_images
       get :subnets
       get :availability_zones
+      get :key_names
+      get :security_groups
     end
   end
 end

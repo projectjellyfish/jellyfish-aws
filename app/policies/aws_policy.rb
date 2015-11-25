@@ -14,4 +14,12 @@ class AwsPolicy < ApplicationPolicy
   def availability_zones?
     logged_in?
   end
+
+  def key_names?
+    logged_in?
+  end
+
+  def security_groups?
+    logged_in?
+  end
 end

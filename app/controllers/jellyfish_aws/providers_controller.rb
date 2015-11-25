@@ -22,6 +22,16 @@ module JellyfishAws
       render json: provider.availability_zones
     end
 
+    def key_names
+      authorize :aws
+      render json: provider.key_names
+    end
+
+    def security_groups
+      authorize :aws
+      render json: provider.security_groups
+    end
+
     private
 
     def provider

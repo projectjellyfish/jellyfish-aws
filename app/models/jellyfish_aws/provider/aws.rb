@@ -132,6 +132,18 @@ module JellyfishAws
         end.compact
       end
 
+      def key_names
+        client.describe_key_pairs.body['keySet'].map do |kn|
+          { label: kn['keyName'], value: kn['keyName']}
+        end.compact
+      end
+
+      def security_groups
+        client.describe_security_groups.body['securityGroupInfo'].map do |sg|
+          { label: "#{sg['groupId']} (#{sg['groupName'][0...30]})", value: sg['groupId']}
+        end.compact
+      end
+
       private
 
       def client

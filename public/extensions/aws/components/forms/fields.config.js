@@ -72,6 +72,30 @@
       controller: AwsDataController
     });
 
+    Forms.fields('aws_key_names', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Key Name',
+        options: []
+      },
+      data: {
+        action: 'keyNames'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_security_groups', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Security Group',
+        options: []
+      },
+      data: {
+        action: 'securityGroups'
+      },
+      controller: AwsDataController
+    });
+
     /** @ngInject */
     function AwsDataController($scope, AwsData, Toasts) {
       var provider = $scope.formState.provider;

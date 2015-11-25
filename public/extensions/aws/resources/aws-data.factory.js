@@ -13,6 +13,8 @@
     AwsData.ec2Images = ec2Images;
     AwsData.subnets = subnets;
     AwsData.zones = zones;
+    AwsData.keyNames = keyNames;
+    AwsData.securityGroups = securityGroups;
 
     return AwsData;
 
@@ -30,6 +32,14 @@
 
     function zones(id) {
       return AwsData.query({id: id, action: 'availability_zones'}).$promise;
+    }
+
+    function keyNames(id) {
+      return AwsData.query({id: id, action: 'key_names'}).$promise;
+    }
+
+    function securityGroups(id) {
+      return AwsData.query({id: id, action: 'security_groups'}).$promise;
     }
   }
 })();
