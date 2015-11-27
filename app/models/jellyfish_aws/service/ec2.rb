@@ -15,7 +15,7 @@ module JellyfishAws
             image_id: self.product.answers.find { |x| x.name == 'image_id' }.value,
             flavor_id: self.product.answers.find { |x| x.name == 'flavor_id' }.value,
             key_name: self.product.answers.find { |x| x.name == 'key_name' }.value,
-            security_group_ids: self.product.answers.find { |x| x.name == 'security_group_id' }.value
+            security_group_ids: [ self.product.answers.find { |x| x.name == 'security_group_id' }.value ]
           }
 
           # CREATE THE AWS SERVER AND WAIT FOR CALLBACK
