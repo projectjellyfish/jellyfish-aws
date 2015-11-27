@@ -48,6 +48,18 @@
       controller: AwsDataController
     });
 
+    Forms.fields('aws_vpcs', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'VPC',
+        options: []
+      },
+      data: {
+        action: 'vpcs'
+      },
+      controller: AwsDataController
+    });
+
     Forms.fields('aws_subnets', {
       type: 'async_select',
       templateOptions: {

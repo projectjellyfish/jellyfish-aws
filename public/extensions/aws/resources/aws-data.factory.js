@@ -11,6 +11,7 @@
 
     AwsData.ec2Flavors = ec2Flavors;
     AwsData.ec2Images = ec2Images;
+    AwsData.vpcs = vpcs;
     AwsData.subnets = subnets;
     AwsData.zones = zones;
     AwsData.keyNames = keyNames;
@@ -24,6 +25,10 @@
 
     function ec2Images(id) {
       return AwsData.query({id: id, action: 'ec2_images'}).$promise;
+    }
+
+    function vpcs(id) {
+      return AwsData.query({id: id, action: 'vpcs'}).$promise;
     }
 
     function subnets(id) {

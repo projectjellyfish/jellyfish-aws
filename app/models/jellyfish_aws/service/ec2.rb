@@ -10,12 +10,12 @@ module JellyfishAws
         server = nil
 
         handle_errors do
-          # TODO: FIGURE OUT HOW SUBNET FITS HERE
           # TODO: EACH ANSWER SHOULD BE AN OPTIONAL DETAIL IF THEY EXIST
           details = {
             image_id: self.product.answers.find { |x| x.name == 'image_id' }.value,
             flavor_id: self.product.answers.find { |x| x.name == 'flavor_id' }.value,
             key_name: self.product.answers.find { |x| x.name == 'key_name' }.value,
+            vpc_id: self.product.answers.find { |x| x.name == 'vpc_id' }.value,
             subnet_id: self.product.answers.find { |x| x.name == 'subnet_id' }.value,
             security_group_ids: [ self.product.answers.find { |x| x.name == 'security_group_id' }.value ]
           }

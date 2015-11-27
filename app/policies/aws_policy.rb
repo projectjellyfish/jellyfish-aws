@@ -7,6 +7,10 @@ class AwsPolicy < ApplicationPolicy
     logged_in?
   end
 
+  def vpcs?
+    logged_in?
+  end
+
   def subnets?
     logged_in?
   end

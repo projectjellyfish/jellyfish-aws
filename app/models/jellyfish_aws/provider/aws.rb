@@ -116,11 +116,15 @@ module JellyfishAws
         end
       end
 
+      def vpcs
+        client.vpcs.map { |x| { label: "#{x.id} (#{x.tenancy})", value: x.id } }
+      end
+
       def subnets
         client.subnets.map do |s|
           {
             id: s.subnet_id, name: s.cidr_block, cidr: s.cidr_block, vpc_id: s.vpc_id,
-            label: s.cidr_block, value: s.subnet_id
+            label:  "#{s.subnet_id} (#{s.cidr_block})",value: s.subnet_id
           }
         end
       end

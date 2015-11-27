@@ -32,6 +32,11 @@ module JellyfishAws
       render json: provider.security_groups
     end
 
+    def vpcs
+      authorize :aws
+      render json: provider.vpcs
+    end
+
     private
 
     def provider

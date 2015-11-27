@@ -3,6 +3,7 @@ JellyfishAws::Engine.routes.draw do
     member do
       get :ec2_flavors
       get :ec2_images
+      get :vpcs
       get :subnets
       get :availability_zones
       get :key_names
