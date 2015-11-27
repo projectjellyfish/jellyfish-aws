@@ -33,7 +33,6 @@ module JellyfishAws
 
       def order_questions
         [
-          { name: :zone_id, value_type: :string, field: :aws_zones, required: true }
         ]
       end
 
