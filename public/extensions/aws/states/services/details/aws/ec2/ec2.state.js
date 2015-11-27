@@ -17,7 +17,7 @@
   }
 
   /** @ngInject */
-  function StateController(service) {
+  function StateController(service, AwsData) {
     var vm = this;
 
     vm.title = '';
@@ -25,9 +25,23 @@
 
     vm.activate = activate;
 
+    vm.deprovision = deprovision;
+
     activate();
 
     function activate() {
     }
+
+    function handleError(response) {
+      console.log(response);
+      vm.response = response;
+    }
+
+    function deprovision(){
+      alert('Functionality Forthcoming!');
+      //vm.response = '';
+      //AwsData['deprovision'](vm.service.provider.id).then(handleError, handleError);
+    }
+
   }
 })();

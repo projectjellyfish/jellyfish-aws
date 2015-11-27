@@ -10,4 +10,90 @@
 
 <service-basic-details service="vm.service"></service-basic-details>
 
-<div>This is the Ec2 override template placeholder</div>
+<region heading="Maintenance">
+  <table class="" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+    <tr>
+      <td class="tables__cell" title="Shuts down and deletes EC2 instance.">
+        <button type="button"
+                class="btn-rounded"
+                ng-click="vm.deprovision()">
+          Deprovision
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</region>
+
+<region heading="Provisioning Outputs">
+    <table class="tables">
+      <tbody>
+
+      <tr>
+        <td class="tables__cell">
+          Public IP
+        </td>
+        <td class="tables__cell">
+          127.0.0.1
+        </td>
+      </tr>
+
+      <tr>
+        <td class="tables__cell">
+          Flavor ID
+        </td>
+        <td class="tables__cell">
+          TBD
+        </td>
+      </tr>
+
+      <tr>
+        <td class="tables__cell">
+          Image ID
+        </td>
+        <td class="tables__cell">
+          TBD
+        </td>
+      </tr>
+
+      <tr>
+        <td class="tables__cell">
+          VPC
+        </td>
+        <td class="tables__cell">
+          TBD
+        </td>
+      </tr>
+
+      <tr>
+        <td class="tables__cell">
+          Subnet
+        </td>
+        <td class="tables__cell">
+          TBD
+        </td>
+      </tr>
+
+      <tr>
+        <td class="tables__cell">
+          Security Group
+        </td>
+        <td class="tables__cell">
+          TBD
+        </td>
+      </tr>
+
+      <tr>
+        <td class="tables__cell">
+          Key Name
+        </td>
+        <td class="tables__cell">
+          TBD
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+</region>
+
