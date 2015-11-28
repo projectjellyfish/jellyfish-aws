@@ -26,4 +26,8 @@ class AwsPolicy < ApplicationPolicy
   def security_groups?
     logged_in?
   end
+
+  def deprovision?
+    logged_in?
+  end
 end

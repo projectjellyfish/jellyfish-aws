@@ -37,6 +37,11 @@ module JellyfishAws
       render json: provider.vpcs
     end
 
+    def deprovision
+      authorize :aws
+      render json: provider.deprovision(params[:service_id])
+    end
+
     private
 
     def provider

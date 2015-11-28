@@ -16,6 +16,7 @@
     AwsData.zones = zones;
     AwsData.keyNames = keyNames;
     AwsData.securityGroups = securityGroups;
+    AwsData.deprovision = deprovision;
 
     return AwsData;
 
@@ -45,6 +46,10 @@
 
     function securityGroups(id) {
       return AwsData.query({id: id, action: 'security_groups'}).$promise;
+    }
+
+    function deprovision(id, service_id) {
+      return AwsData.query({id: id, action: 'deprovision', service_id: service_id}).$promise;
     }
   }
 })();

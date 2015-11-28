@@ -6,6 +6,16 @@ module JellyfishAws
         actions
       end
 
+      def deprovision
+        handle_errors do
+          server_identifier = get_output('instance_id').value
+          client.servers.get(server_identifier).destroy
+
+          # UPDATE STATUS
+          update_status(::Service.defined_enums['status']['terminated'], 'terminated')
+        end
+      end
+
       def provision
         server = nil
 
@@ -26,10 +36,8 @@ module JellyfishAws
           # PERSIST SERVER PUBLIC IP
           persist_attributes(server.attributes) if defined? server.attributes
 
-          # SUCCESS OR FAIL NOTIFICATION
-          self.status = ::Service.defined_enums['status']['running']
-          self.status_msg = 'running'
-          self.save
+          # UPDATE STATUS
+          update_status(::Service.defined_enums['status']['running'], 'running')
         end
       end
 
@@ -47,9 +55,24 @@ module JellyfishAws
 
       private
 
+      def update_status(status, status_msg)
+        self.status = status
+        self.status_msg = status_msg
+        self.save
+      end
+
       def persist_attributes(attributes)
-        output = ServiceOutput.new name: 'public_ip_address', value: attributes[:public_ip_address], value_type: ValueTypes::TYPES[:string]
-        self.service_outputs << output
+        save_output('public_ip_address', attributes[:public_ip_address], ValueTypes::TYPES[:string])
+        save_output('instance_id', attributes[:id], ValueTypes::TYPES[:string])
+      end
+
+      def save_output(name, value, value_type)
+        service = get_output(name) || self.service_outputs.new(name: name, value: value, value_type: value_type)
+        service.update_attributes(value: value, value_type: value_type) unless service.nil?
+      end
+
+      def get_output(name)
+        self.service_outputs.where(name: name).first
       end
 
       def handle_errors

@@ -32,16 +32,19 @@
     function activate() {
     }
 
+    function handleResponse(response) {
+      console.log(response);
+      vm.response = response;
+    }
+
     function handleError(response) {
       console.log(response);
       vm.response = response;
     }
 
     function deprovision(){
-      alert('Functionality Forthcoming!');
-      //vm.response = '';
-      //AwsData['deprovision'](vm.service.provider.id).then(handleError, handleError);
+      vm.response = null;
+      AwsData['deprovision'](vm.service.provider.id, vm.service.id).then(handleResponse, handleError);
     }
-
   }
 })();

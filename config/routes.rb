@@ -8,6 +8,7 @@ JellyfishAws::Engine.routes.draw do
       get :availability_zones
       get :key_names
       get :security_groups
+      get :deprovision
     end
   end
 end

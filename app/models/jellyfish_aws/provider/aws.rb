@@ -148,6 +148,19 @@ module JellyfishAws
         end.compact
       end
 
+      def deprovision(service_id)
+        # TODO: REMOVE DEPENDENCY ON DELAYED JOBS
+        service = ::Service.where(id: service_id).first
+        service.delay.deprovision unless service.nil?
+
+        # SUCCESS OR FAIL NOTIFICATION
+        service.status = ::Service.defined_enums['status']['stopping']
+        service.status_msg = 'stopping'
+        service.save
+
+        [ 'Service has been scheduled for deprovisioning.' ]
+      end
+
       private
 
       def client

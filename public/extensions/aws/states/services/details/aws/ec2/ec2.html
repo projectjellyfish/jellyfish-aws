@@ -26,6 +26,23 @@
   </table>
 </region>
 
+<div ng-if="vm.response">
+  <region heading="Response">
+    <table class="tables">
+      <tbody>
+      <tr>
+        <td class="tables__cell">
+          {{ vm.response }}
+        </td>
+      </tr>
+      <tr><td class="tables__cell">
+        &nbsp;
+      </td></tr>
+      </tbody>
+    </table>
+  </region>
+</div>
+
 <region heading="Provisioning Outputs">
     <table class="tables">
       <tbody>
