@@ -8,7 +8,10 @@ module JellyfishAws
 
       def deprovision
         handle_errors do
+          # GET HANDLE OF SERVER INSTANCE TO BE DEPROVISIONED
           server_identifier = get_output('instance_id').value
+
+          # SEND THE SIGNAL TO SHUTDOWN AND TERMINATE THE INSTANCE
           client.servers.get(server_identifier).destroy
 
           # UPDATE STATUS
@@ -33,8 +36,11 @@ module JellyfishAws
           # CREATE THE AWS SERVER AND WAIT FOR CALLBACK
           server = client.servers.create(details).tap { |s| s.wait_for { ready? } }
 
-          # PERSIST SERVER PUBLIC IP
-          persist_attributes(server.attributes) if defined? server.attributes
+          # SAVE SERVER PUBLIC IP AND INSTANCE
+          save_outputs(server.attributes, [ [ 'instance_id', :id], [ 'public_ip_address', :public_ip_address ] ], ValueTypes::TYPES[:string]) if defined? server.attributes
+
+          # SAVE PRODUCT DETAILS
+          save_outputs(details, [ [ 'image_id', :image_id], [ 'flavor_id', :flavor_id ], [ 'key_name', :key_name ], ['vpc_id', :vpc_id], ['subnet_id', :subnet_id ], ['security_group_ids', :security_group_ids] ], ValueTypes::TYPES[:string]) if defined? details
 
           # UPDATE STATUS
           update_status(::Service.defined_enums['status']['running'], 'running')
@@ -61,14 +67,13 @@ module JellyfishAws
         self.save
       end
 
-      def persist_attributes(attributes)
-        save_output('public_ip_address', attributes[:public_ip_address], ValueTypes::TYPES[:string])
-        save_output('instance_id', attributes[:id], ValueTypes::TYPES[:string])
-      end
-
-      def save_output(name, value, value_type)
-        service = get_output(name) || self.service_outputs.new(name: name, value: value, value_type: value_type)
-        service.update_attributes(value: value, value_type: value_type) unless service.nil?
+      def save_outputs(source, outputs_to_save, output_value_type)
+        outputs_to_save.each do |output_name, source_key|
+          next unless defined? source[source_key]
+          service = get_output(output_name) || self.service_outputs.new(name: output_name)
+          service.update_attributes(value: source[source_key], value_type: output_value_type) unless service.nil?
+          service.save
+        end
       end
 
       def get_output(name)

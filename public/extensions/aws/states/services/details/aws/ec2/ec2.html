@@ -46,70 +46,62 @@
 <region heading="Provisioning Outputs">
     <table class="tables">
       <tbody>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('public_ip_address')">
         <td class="tables__cell">
           Public IP
         </td>
         <td class="tables__cell">
-          127.0.0.1
+          {{ vm.getServiceOutput('public_ip_address').value }}
         </td>
       </tr>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('flavor_id')">
         <td class="tables__cell">
           Flavor ID
         </td>
         <td class="tables__cell">
-          TBD
+          {{ vm.getServiceOutput('flavor_id').value }}
         </td>
       </tr>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('image_id')">
         <td class="tables__cell">
           Image ID
         </td>
         <td class="tables__cell">
-          TBD
+          {{ vm.getServiceOutput('image_id').value }}
         </td>
       </tr>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('vpc_id')">
         <td class="tables__cell">
           VPC
         </td>
         <td class="tables__cell">
-          TBD
+          {{ vm.getServiceOutput('vpc_id').value }}
         </td>
       </tr>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('subnet_id')">
         <td class="tables__cell">
           Subnet
         </td>
         <td class="tables__cell">
-          TBD
+          {{ vm.getServiceOutput('subnet_id').value }}
         </td>
       </tr>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('security_group_ids')">
         <td class="tables__cell">
-          Security Group
+          Security Groups
         </td>
         <td class="tables__cell">
-          TBD
+          {{ vm.getServiceOutput('security_group_ids').value }}
         </td>
       </tr>
-
-      <tr>
+      <tr ng-if="vm.getServiceOutput('key_name')">
         <td class="tables__cell">
           Key Name
         </td>
         <td class="tables__cell">
-          TBD
+          {{ vm.getServiceOutput('key_name').value }}
         </td>
       </tr>
-
       </tbody>
     </table>
 </region>
