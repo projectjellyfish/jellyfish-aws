@@ -2,12 +2,17 @@ module JellyfishAws
   module Provider
     class Aws < ::Provider
       def ec2_flavors
-        client.flavors.map do |f|
+        ec2_client.flavors.map do |f|
           {
             id: f.id, name: f.name, bits: f.bits, cores: f.cores, ram: f.ram,
             label: [f.name, f.id].join(' - '), value: f.id
           }
         end
+      end
+
+      def rds_engines
+        # TODO: PARSE OUT AND FORMAT RETURN VALUES
+        rds_client.describe_db_engine_versions
       end
 
       def ec2_images
@@ -117,11 +122,11 @@ module JellyfishAws
       end
 
       def vpcs
-        client.vpcs.map { |x| { label: "#{x.id} (#{x.tenancy})", value: x.id } }
+        ec2_client.vpcs.map { |x| { label: "#{x.id} (#{x.tenancy})", value: x.id } }
       end
 
       def subnets
-        client.subnets.map do |s|
+        ec2_client.subnets.map do |s|
           {
             id: s.subnet_id, name: s.cidr_block, cidr: s.cidr_block, vpc_id: s.vpc_id,
             label:  "#{s.subnet_id} (#{s.cidr_block})",value: s.subnet_id
@@ -130,20 +135,20 @@ module JellyfishAws
       end
 
       def availability_zones
-        client.describe_availability_zones.body['availabilityZoneInfo'].map do |az|
+        ec2_client.describe_availability_zones.body['availabilityZoneInfo'].map do |az|
           next unless client.region == az['regionName']
           { label: az['zoneName'], value: az['zoneName'] }
         end.compact
       end
 
       def key_names
-        client.describe_key_pairs.body['keySet'].map do |kn|
+        ec2_client.describe_key_pairs.body['keySet'].map do |kn|
           { label: kn['keyName'], value: kn['keyName']}
         end.compact
       end
 
       def security_groups
-        client.describe_security_groups.body['securityGroupInfo'].map do |sg|
+        ec2_client.describe_security_groups.body['securityGroupInfo'].map do |sg|
           { label: "#{sg['groupId']} (#{sg['groupName'][0...30]})", value: sg['groupId']}
         end.compact
       end
@@ -153,6 +158,7 @@ module JellyfishAws
         service = ::Service.where(id: service_id).first
         service.delay.deprovision unless service.nil?
 
+        # TODO: SHOULD THIS BE TURNED INTO A REUSABLE FUNCTION?
         # SUCCESS OR FAIL NOTIFICATION
         service.status = ::Service.defined_enums['status']['stopping']
         service.status_msg = 'stopping'
@@ -163,15 +169,33 @@ module JellyfishAws
 
       private
 
-      def client
-        @client ||= begin
-          credentials = {
+      def credentials
+        @credentials ||= begin
+          {
             provider: 'AWS',
             aws_access_key_id: settings[:access_id],
             aws_secret_access_key: settings[:secret_key],
             region: settings[:region]
           }
+        end
+      end
+
+      def ec2_client
+        @ec2_client ||= begin
           Fog::Compute.new credentials
+        end
+      end
+
+      def s3_client
+        @s3_client ||= begin
+          Fog::Storage.new credentials
+        end
+      end
+
+      def rds_client
+        @rds_client ||= begin
+          # RDS ISSUES A WARNING IF PROVIDER IS PASSED
+          Fog::AWS::RDS.new credentials.except(:provider)
         end
       end
     end
