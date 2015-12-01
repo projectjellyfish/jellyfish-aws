@@ -1,0 +1,60 @@
+<content-header short="true">
+  <div class="content-header__body">
+    <img ng-if="vm.product.img" class="content-header__icon" ng-src="images/assets/{{ ::vm.product.img }}"/>
+    <span class="content-header__title">{{ ::vm.service.product.name }}</span>
+  </div>
+  <div class="content-header__aside">
+    <back-link></back-link>
+  </div>
+</content-header>
+
+<service-basic-details service="vm.service"></service-basic-details>
+
+<region heading="Maintenance">
+  <table class="" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+    <tr>
+      <td class="tables__cell" title="Terminates instance.">
+        <button type="button"
+                class="btn-rounded"
+                ng-click="vm.deprovision()">
+          Deprovision
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</region>
+
+<div ng-if="vm.response">
+  <region heading="Response">
+    <table class="tables">
+      <tbody>
+      <tr>
+        <td class="tables__cell">
+          {{ vm.response }}
+        </td>
+      </tr>
+      <tr><td class="tables__cell">
+        &nbsp;
+      </td></tr>
+      </tbody>
+    </table>
+  </region>
+</div>
+
+<region heading="Provisioning Outputs">
+    <table class="tables">
+      <tbody>
+      <tr ng-if="vm.getServiceOutput('instance_id')">
+        <td class="tables__cell">
+          Instance ID
+        </td>
+        <td class="tables__cell">
+          {{ vm.getServiceOutput('instance_id').value }}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+</region>
+
