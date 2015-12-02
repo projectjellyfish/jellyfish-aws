@@ -7,6 +7,11 @@ module JellyfishAws
       render json: provider.ec2_flavors
     end
 
+    def rds_engines
+      authorize :aws
+      render json: provider.rds_engines
+    end
+
     def ec2_images
       authorize :aws
       render json: provider.ec2_images

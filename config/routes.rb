@@ -2,6 +2,7 @@ JellyfishAws::Engine.routes.draw do
   resources :providers, only: [] do
     member do
       get :ec2_flavors
+      get :rds_engines
       get :ec2_images
       get :vpcs
       get :subnets

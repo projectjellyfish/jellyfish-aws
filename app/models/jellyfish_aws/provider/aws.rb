@@ -12,7 +12,12 @@ module JellyfishAws
 
       def rds_engines
         # TODO: PARSE OUT AND FORMAT RETURN VALUES
-        rds_client.describe_db_engine_versions
+        rds_client.describe_db_engine_versions.body['DescribeDBEngineVersionsResult']['DBEngineVersions'].map do |e|
+          {
+            value: e['Engine'].strip+'-'+e['EngineVersion'].strip,
+            label: e['DBEngineVersionDescription'].strip
+          }
+        end
       end
 
       def ec2_images

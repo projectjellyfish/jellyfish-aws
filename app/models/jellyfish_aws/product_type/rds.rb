@@ -24,11 +24,11 @@ module JellyfishAws
       def product_questions
         # TODO: PLUGIN THE ENDPOINTS FOR THE FIELDS
         [
-          { name: :flavor_id, value_type: :string, field: :text, label: 'Instance Type', required: true },
-          { name: :engine, value_type: :string, field: :text, label: 'Database Engine', required: true },
+          { name: :flavor_id, value_type: :string, field: :aws_ec2_flavors, label: 'Instance Type', required: true },
+          { name: :engine, value_type: :string, field: :aws_rds_engines, required: true },
           { name: :allocated_storage, value_type: :string, field: :text, label: 'Allocated Storage', required: true },
           { name: :master_username, value_type: :string, field: :text, label: 'Admin Username', required: true },
-          { name: :master_username, value_type: :string, field: :text, label: 'Admin Password', required: true }
+          { name: :master_password, value_type: :string, field: :password, label: 'Admin Password', required: true }
         ]
       end
 

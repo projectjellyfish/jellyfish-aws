@@ -3,6 +3,10 @@ class AwsPolicy < ApplicationPolicy
     logged_in?
   end
 
+  def rds_engines?
+    logged_in?
+  end
+
   def ec2_images?
     logged_in?
   end

@@ -36,6 +36,18 @@
       controller: AwsDataController
     });
 
+    Forms.fields('aws_rds_engines', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Engine Version',
+        options: []
+      },
+      data: {
+        action: 'rdsEngines'
+      },
+      controller: AwsDataController
+    });
+
     Forms.fields('aws_ec2_flavors', {
       type: 'async_select',
       templateOptions: {

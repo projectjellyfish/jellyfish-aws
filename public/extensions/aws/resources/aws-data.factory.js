@@ -10,6 +10,7 @@
     var AwsData = $resource(base, {action: '@action', id: '@id'});
 
     AwsData.ec2Flavors = ec2Flavors;
+    AwsData.rdsEngines = rdsEngines;
     AwsData.ec2Images = ec2Images;
     AwsData.vpcs = vpcs;
     AwsData.subnets = subnets;
@@ -22,6 +23,10 @@
 
     function ec2Flavors(id) {
       return AwsData.query({id: id, action: 'ec2_flavors'}).$promise;
+    }
+
+    function rdsEngines(id) {
+      return AwsData.query({id: id, action: 'rds_engines'}).$promise;
     }
 
     function ec2Images(id) {
