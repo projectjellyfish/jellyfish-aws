@@ -4,13 +4,14 @@ module JellyfishAws
       def self.load_product_types
         return unless super
 
-        transaction do
-          [
-            set('RDS Instance', 'fbd69f29-4150-4ea3-9ff1-90ae33f4a1f4', provider_type: 'JellyfishAws::Provider::Aws')
-          ].each do |s|
-            create! s.merge!(type: 'JellyfishAws::ProductType::RDS')
-          end
-        end
+        # TODO: ADD RDS BACK WITH THOUGHTFUL IMPLEMENTATION
+        # transaction do
+        #   [
+        #     set('RDS Instance', 'fbd69f29-4150-4ea3-9ff1-90ae33f4a1f4', provider_type: 'JellyfishAws::Provider::Aws', active: 'false')
+        #   ].each do |s|
+        #     create! s.merge!(type: 'JellyfishAws::ProductType::RDS')
+        #   end
+        # end
       end
 
       def description
