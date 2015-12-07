@@ -33,8 +33,8 @@ module JellyfishAws
             'EngineVersion' => self.product.answers.find { |x| x.name == 'version' }.value,
             'DBInstanceClass'=> self.product.answers.find { |x| x.name == 'flavor_id' }.value,
             'AllocatedStorage' => self.product.answers.find { |x| x.name == 'allocated_storage' }.value,
-            'MasterUsername' => self.product.answers.find { |x| x.name == 'master_username' }.value,
-            'MasterUserPassword' => self.product.answers.find { |x| x.name == 'master_password' }.value
+            'MasterUsername' => self.answers.find { |x| x.name == 'master_username' }.value,
+            'MasterUserPassword' => self.answers.find { |x| x.name == 'master_password' }.value
           }
 
           # CREATE THE AWS DB INSTANCE
