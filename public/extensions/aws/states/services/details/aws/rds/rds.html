@@ -44,17 +44,67 @@
 </div>
 
 <region heading="Provisioning Outputs">
-    <table class="tables">
-      <tbody>
-      <tr ng-if="vm.getServiceOutput('instance_id')">
-        <td class="tables__cell">
-          Instance ID
-        </td>
-        <td class="tables__cell">
-          {{ vm.getServiceOutput('instance_id').value }}
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <table class="tables">
+    <tbody>
+    <tr ng-if="vm.getServiceOutput('instance_id')">
+      <td class="tables__cell">
+        Instance Id
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('instance_id').value }}
+      </td>
+    </tr>
+    <tr ng-if="vm.getServiceOutput('engine')">
+      <td class="tables__cell">
+        Engine
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('engine').value }}
+      </td>
+    </tr>
+    <tr ng-if="vm.getServiceOutput('version')">
+      <td class="tables__cell">
+        Version
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('version').value }}
+      </td>
+    </tr>
+    <tr ng-if="vm.getServiceOutput('flavor_id')">
+      <td class="tables__cell">
+        Instance Type
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('flavor_id').value }}
+      </td>
+    </tr>
+    <tr ng-if="vm.getServiceOutput('allocated_storage')">
+      <td class="tables__cell">
+        Allocated Storage
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('allocated_storage').value }}
+      </td>
+    </tr>
+
+    <tr ng-if="vm.getServiceOutput('master_username')">
+      <td class="tables__cell">
+        Admin User
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('master_username').value }}
+      </td>
+    </tr>
+    <tr ng-if="vm.getServiceOutput('master_password')">
+      <td class="tables__cell">
+        Admin Password
+      </td>
+      <td class="tables__cell">
+        {{ vm.getServiceOutput('master_password').value }}
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
 </region>
 
