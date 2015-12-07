@@ -192,19 +192,6 @@ module JellyfishAws
         [ 'Service has been scheduled for deprovisioning.' ]
       end
 
-      private
-
-      def credentials
-        @credentials ||= begin
-          {
-            provider: 'AWS',
-            aws_access_key_id: settings[:access_id],
-            aws_secret_access_key: settings[:secret_key],
-            region: settings[:region]
-          }
-        end
-      end
-
       def ec2_client
         @ec2_client ||= begin
           Fog::Compute.new credentials
@@ -221,6 +208,19 @@ module JellyfishAws
         @rds_client ||= begin
           # RDS ISSUES A WARNING IF PROVIDER IS PASSED
           Fog::AWS::RDS.new credentials.except(:provider)
+        end
+      end
+
+      private
+
+      def credentials
+        @credentials ||= begin
+          {
+            provider: 'AWS',
+            aws_access_key_id: settings[:access_id],
+            aws_secret_access_key: settings[:secret_key],
+            region: settings[:region]
+          }
         end
       end
     end

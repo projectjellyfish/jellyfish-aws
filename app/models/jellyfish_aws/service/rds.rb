@@ -87,12 +87,7 @@ module JellyfishAws
 
       def client
         @client ||= begin
-          credentials = {
-            aws_access_key_id: self.provider.settings[:access_id],
-            aws_secret_access_key: self.provider.settings[:secret_key],
-            region: self.provider.settings[:region]
-          }
-          ::Fog::AWS::RDS.new credentials
+          self.provider.rds_client
         end
       end
     end

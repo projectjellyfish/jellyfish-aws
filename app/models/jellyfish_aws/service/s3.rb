@@ -52,13 +52,7 @@ module JellyfishAws
 
       def client
         @client ||= begin
-          credentials = {
-            provider: 'AWS',
-            aws_access_key_id: self.provider.settings[:access_id],
-            aws_secret_access_key: self.provider.settings[:secret_key],
-            region: self.provider.settings[:region]
-          }
-          ::Fog::Storage.new credentials
+          self.provider.s3_client
         end
       end
     end
