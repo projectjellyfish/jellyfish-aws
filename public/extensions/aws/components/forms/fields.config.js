@@ -72,6 +72,59 @@
       controller: AwsDataController
     });
 
+    Forms.fields('aws_rds_admin_username', {
+      type: 'text',
+      templateOptions: {
+        label: 'Admin Username'
+      },
+      validators: {
+        firstCharacterIsLetter: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /^[A-Za-z].*/.test(value);
+          },
+          message: '"Username must start with a letter"'
+        },
+        isLongEnough: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /.{5,}/.test(value);
+          },
+          message: '"Username must be at least 5 characters long"'
+        },
+        noSpecialChars: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /^[A-Za-z0-9_]+$/.test(value);
+          },
+          message: '"Username can not contain any special characters"'
+        }
+      }
+    });
+
+    Forms.fields('aws_rds_admin_password', {
+      type: 'password',
+      templateOptions: {
+        label: 'Admin Password'
+      },
+      validators: {
+        isLongEnough: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /.{8,}/.test(value);
+          },
+          message: '"Password must be at least 8 characters long"'
+        },
+        noSpecialChars: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return !/[\"\/\@]/.test(value);
+          },
+          message: '"Password can not contain \\"/\\", \\"\\"\\" or \\"@\\" "'
+        }
+      }
+    });
+
     Forms.fields('aws_ec2_flavors', {
       type: 'async_select',
       templateOptions: {
