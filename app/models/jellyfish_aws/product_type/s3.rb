@@ -4,14 +4,13 @@ module JellyfishAws
       def self.load_product_types
         return unless super
 
-        # TODO: ADD RDS BACK WITH THOUGHTFUL IMPLEMENTATION
-        # transaction do
-        #   [
-        #     set('S3 Instance', '11ca0e0e-617d-45f3-b10a-acf42d5e6ecc', provider_type: 'JellyfishAws::Provider::Aws', active: 'false')
-        #   ].each do |s|
-        #     create! s.merge!(type: 'JellyfishAws::ProductType::S3')
-        #   end
-        # end
+        transaction do
+          [
+            set('S3 Instance', '11ca0e0e-617d-45f3-b10a-acf42d5e6ecc', provider_type: 'JellyfishAws::Provider::Aws', active: 'false')
+          ].each do |s|
+            create! s.merge!(type: 'JellyfishAws::ProductType::S3')
+          end
+        end
       end
 
       def description
