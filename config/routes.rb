@@ -3,6 +3,8 @@ JellyfishAws::Engine.routes.draw do
     member do
       get :ec2_flavors
       get :rds_engines
+      get :rds_versions
+      get :rds_flavors
       get :ec2_images
       get :vpcs
       get :subnets

@@ -7,6 +7,14 @@ class AwsPolicy < ApplicationPolicy
     logged_in?
   end
 
+  def rds_versions?
+    logged_in?
+  end
+
+  def rds_flavors?
+    logged_in?
+  end
+
   def ec2_images?
     logged_in?
   end

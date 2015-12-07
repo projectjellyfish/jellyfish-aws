@@ -11,13 +11,32 @@ module JellyfishAws
       end
 
       def rds_engines
-        # TODO: PARSE OUT AND FORMAT RETURN VALUES
         rds_client.describe_db_engine_versions.body['DescribeDBEngineVersionsResult']['DBEngineVersions'].map do |e|
           {
-            value: e['Engine'].strip+'-'+e['EngineVersion'].strip,
-            label: e['DBEngineVersionDescription'].strip
+            value: e['Engine'].strip,
+            label: e['Engine'].strip
+          }
+        end.uniq
+      end
+
+      def rds_versions(engine)
+        return if engine.nil? || engine == 'none'
+        rds_client.describe_db_engine_versions({:engine=>engine}).body['DescribeDBEngineVersionsResult']['DBEngineVersions'].map do |e|
+          {
+            value: e['EngineVersion'].strip,
+            label: e['EngineVersion'].strip,
           }
         end
+      end
+
+      def rds_flavors(engine, version)
+        return [] if engine.nil? || engine == 'none'
+        rds_client.describe_orderable_db_instance_options(engine, {:engine_version=>version}).body['DescribeOrderableDBInstanceOptionsResult']['OrderableDBInstanceOptions'].map do |f|
+          {
+            value: f['DBInstanceClass'].strip,
+            label: f['DBInstanceClass'].strip
+          }
+        end.uniq.sort_by { |f| f[:value] }
       end
 
       def ec2_images

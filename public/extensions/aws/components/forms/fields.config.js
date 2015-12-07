@@ -39,11 +39,35 @@
     Forms.fields('aws_rds_engines', {
       type: 'async_select',
       templateOptions: {
-        label: 'Engine Version',
+        label: 'Engine',
         options: []
       },
       data: {
         action: 'rdsEngines'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_rds_versions', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Version',
+        options: []
+      },
+      data: {
+        action: 'rdsVersions'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_rds_flavors', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Instance Type',
+        options: []
+      },
+      data: {
+        action: 'rdsFlavors'
       },
       controller: AwsDataController
     });
@@ -136,22 +160,33 @@
         return;
       }
 
-      if(action == 'subnets'){
-
-        $scope.$parent.$watch('model.vpc_id' , function (newValue, oldValue, theScope) {
-
-          if(newValue !== oldValue) {
-
-            $scope.to.loading = AwsData[action](provider.id, newValue).then(handleResults, handleError);
-
-          }
-
-        });
-
-        $scope.to.loading = AwsData[action](provider.id, 'none').then(handleResults, handleError);
-
-      }else{
-        $scope.to.loading = AwsData[action](provider.id).then(handleResults, handleError);
+      switch(action) {
+        case 'subnets':
+          $scope.$parent.$watch('model.vpc_id' , function (newValue, oldValue, theScope) {
+            if(newValue !== oldValue) {
+              $scope.to.loading = AwsData[action](provider.id, newValue).then(handleResults, handleError);
+            }
+          });
+          $scope.to.loading = AwsData[action](provider.id, 'none').then(handleResults, handleError);
+          break;
+        case 'rdsVersions':
+          $scope.$parent.$watch('model.engine' , function (newValue, oldValue, theScope) {
+            if(newValue !== oldValue) {
+              $scope.to.loading = AwsData[action](provider.id, newValue).then(handleResults, handleError);
+            }
+          });
+          $scope.to.loading = AwsData[action](provider.id, 'none').then(handleResults, handleError);
+          break;
+        case 'rdsFlavors':
+          $scope.$parent.$watch('model.version' , function (newValue, oldValue, theScope) {
+            if(newValue !== oldValue) {
+              $scope.to.loading = AwsData[action](provider.id, $scope.model.engine, newValue).then(handleResults, handleError);
+            }
+          });
+          $scope.to.loading = AwsData[action](provider.id, 'none', 'none').then(handleResults, handleError);
+          break;
+        default:
+          $scope.to.loading = AwsData[action](provider.id).then(handleResults, handleError);
       }
 
       function handleResults(data) {

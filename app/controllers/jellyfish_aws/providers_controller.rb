@@ -12,6 +12,16 @@ module JellyfishAws
       render json: provider.rds_engines
     end
 
+    def rds_versions
+      authorize :aws
+      render json: provider.rds_versions(params[:engine])
+    end
+
+    def rds_flavors
+      authorize :aws
+      render json: provider.rds_flavors(params[:engine], params[:version])
+    end
+
     def ec2_images
       authorize :aws
       render json: provider.ec2_images

@@ -11,6 +11,8 @@
 
     AwsData.ec2Flavors = ec2Flavors;
     AwsData.rdsEngines = rdsEngines;
+    AwsData.rdsVersions = rdsVersions;
+    AwsData.rdsFlavors = rdsFlavors;
     AwsData.ec2Images = ec2Images;
     AwsData.vpcs = vpcs;
     AwsData.subnets = subnets;
@@ -27,6 +29,14 @@
 
     function rdsEngines(id) {
       return AwsData.query({id: id, action: 'rds_engines'}).$promise;
+    }
+
+    function rdsVersions(id, engine) {
+      return AwsData.query({id: id, action: 'rds_versions', engine: engine}).$promise;
+    }
+
+    function rdsFlavors(id, engine, version) {
+      return AwsData.query({id: id, action: 'rds_flavors', engine: engine, version: version}).$promise;
     }
 
     function ec2Images(id) {
