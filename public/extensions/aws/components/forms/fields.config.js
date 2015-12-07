@@ -136,13 +136,28 @@
         return;
       }
 
-      $scope.to.loading = AwsData[action](provider.id).then(handleResults, handleError);
+      if(action == 'subnets'){
+
+        $scope.$parent.$watch('model.vpc_id' , function (newValue, oldValue, theScope) {
+
+          if(newValue !== oldValue) {
+
+            $scope.to.loading = AwsData[action](provider.id, newValue).then(handleResults, handleError);
+
+          }
+
+        });
+
+        $scope.to.loading = AwsData[action](provider.id, 'none').then(handleResults, handleError);
+
+      }else{
+        $scope.to.loading = AwsData[action](provider.id).then(handleResults, handleError);
+      }
 
       function handleResults(data) {
         $scope.to.options = data;
         return data;
       }
-
 
       function handleError(response) {
         var error = response.data;

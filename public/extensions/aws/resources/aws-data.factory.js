@@ -37,8 +37,8 @@
       return AwsData.query({id: id, action: 'vpcs'}).$promise;
     }
 
-    function subnets(id) {
-      return AwsData.query({id: id, action: 'subnets'}).$promise;
+    function subnets(id, vpc_id) {
+      return AwsData.query({id: id, action: 'subnets', vpc_id: vpc_id}).$promise;
     }
 
     function zones(id) {

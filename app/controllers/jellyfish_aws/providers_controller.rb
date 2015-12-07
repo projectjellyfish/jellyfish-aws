@@ -19,7 +19,7 @@ module JellyfishAws
 
     def subnets
       authorize :aws
-      render json: provider.subnets
+      render json: provider.subnets(params[:vpc_id])
     end
 
     def availability_zones

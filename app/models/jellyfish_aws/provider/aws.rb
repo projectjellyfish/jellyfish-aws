@@ -130,13 +130,14 @@ module JellyfishAws
         ec2_client.vpcs.map { |x| { label: "#{x.id} (#{x.tenancy})", value: x.id } }
       end
 
-      def subnets
+      def subnets(vpc_id)
         ec2_client.subnets.map do |s|
+          next unless s.vpc_id == vpc_id
           {
             id: s.subnet_id, name: s.cidr_block, cidr: s.cidr_block, vpc_id: s.vpc_id,
             label:  "#{s.subnet_id} (#{s.cidr_block})",value: s.subnet_id
           }
-        end
+        end.compact
       end
 
       def availability_zones
