@@ -24,14 +24,16 @@ module JellyfishAws
       def product_questions
         [
           { name: :flavor_id, value_type: :string, field: :aws_ec2_flavors, required: true },
-          { name: :image_id, value_type: :string, field: :aws_ec2_images, required: true },
-          { name: :subnet_id, value_type: :string, field: :aws_subnets, required: true }
+          { name: :image_id, value_type: :string, label: 'AMI ID', required: true },
+          { name: :vpc_id, value_type: :string, field: :aws_vpcs, required: true },
+          { name: :subnet_id, value_type: :string, field: :aws_subnets, required: true },
+          { name: :security_group_id, value_type: :string, field: :aws_security_groups, required: true },
+          { name: :key_name, value_type: :string, field: :aws_key_names, required: true }
         ]
       end
 
       def order_questions
         [
-          { name: :zone_id, value_type: :string, field: :aws_zones, required: true }
         ]
       end
 

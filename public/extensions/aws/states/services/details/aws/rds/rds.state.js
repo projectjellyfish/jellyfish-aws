@@ -7,9 +7,9 @@
   /** @ngInject */
   function appRun(StateOverride) {
     StateOverride.override('services.details', function(service) {
-      if ('JellyfishAws::Service::Ec2' == service.type) {
+      if ('JellyfishAws::Service::RDS' == service.type) {
         return {
-          templateUrl: 'extensions/aws/states/services/details/aws/ec2/ec2.html',
+          templateUrl: 'extensions/aws/states/services/details/aws/rds/rds.html',
           controller: StateController
         };
       }

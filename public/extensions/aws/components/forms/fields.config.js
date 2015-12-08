@@ -36,6 +36,95 @@
       controller: AwsDataController
     });
 
+    Forms.fields('aws_rds_engines', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Engine',
+        options: []
+      },
+      data: {
+        action: 'rdsEngines'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_rds_versions', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Version',
+        options: []
+      },
+      data: {
+        action: 'rdsVersions'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_rds_flavors', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Instance Type',
+        options: []
+      },
+      data: {
+        action: 'rdsFlavors'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_rds_admin_username', {
+      type: 'text',
+      templateOptions: {
+        label: 'Admin Username'
+      },
+      validators: {
+        firstCharacterIsLetter: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /^[A-Za-z].*/.test(value);
+          },
+          message: '"Username must start with a letter"'
+        },
+        isLongEnough: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /.{5,}/.test(value);
+          },
+          message: '"Username must be at least 5 characters long"'
+        },
+        noSpecialChars: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /^[A-Za-z0-9_]+$/.test(value);
+          },
+          message: '"Username can not contain any special characters"'
+        }
+      }
+    });
+
+    Forms.fields('aws_rds_admin_password', {
+      type: 'password',
+      templateOptions: {
+        label: 'Admin Password'
+      },
+      validators: {
+        isLongEnough: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return /.{8,}/.test(value);
+          },
+          message: '"Password must be at least 8 characters long"'
+        },
+        noSpecialChars: {
+          expression: function($viewValue, $modelValue, scope) {
+            var value = $modelValue || $viewValue;
+            return !/[\"\/\@]/.test(value);
+          },
+          message: '"Password can not contain \\"/\\", \\"\\"\\" or \\"@\\" "'
+        }
+      }
+    });
+
     Forms.fields('aws_ec2_flavors', {
       type: 'async_select',
       templateOptions: {
@@ -44,6 +133,18 @@
       },
       data: {
         action: 'ec2Flavors'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_vpcs', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'VPC',
+        options: []
+      },
+      data: {
+        action: 'vpcs'
       },
       controller: AwsDataController
     });
@@ -72,6 +173,30 @@
       controller: AwsDataController
     });
 
+    Forms.fields('aws_key_names', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Key Name',
+        options: []
+      },
+      data: {
+        action: 'keyNames'
+      },
+      controller: AwsDataController
+    });
+
+    Forms.fields('aws_security_groups', {
+      type: 'async_select',
+      templateOptions: {
+        label: 'Security Group',
+        options: []
+      },
+      data: {
+        action: 'securityGroups'
+      },
+      controller: AwsDataController
+    });
+
     /** @ngInject */
     function AwsDataController($scope, AwsData, Toasts) {
       var provider = $scope.formState.provider;
@@ -88,13 +213,39 @@
         return;
       }
 
-      $scope.to.loading = AwsData[action](provider.id).then(handleResults, handleError);
+      switch(action) {
+        case 'subnets':
+          $scope.$parent.$watch('model.vpc_id' , function (newValue, oldValue, theScope) {
+            if(newValue !== oldValue) {
+              $scope.to.loading = AwsData[action](provider.id, newValue).then(handleResults, handleError);
+            }
+          });
+          $scope.to.loading = AwsData[action](provider.id, 'none').then(handleResults, handleError);
+          break;
+        case 'rdsVersions':
+          $scope.$parent.$watch('model.engine' , function (newValue, oldValue, theScope) {
+            if(newValue !== oldValue) {
+              $scope.to.loading = AwsData[action](provider.id, newValue).then(handleResults, handleError);
+            }
+          });
+          $scope.to.loading = AwsData[action](provider.id, 'none').then(handleResults, handleError);
+          break;
+        case 'rdsFlavors':
+          $scope.$parent.$watch('model.version' , function (newValue, oldValue, theScope) {
+            if(newValue !== oldValue) {
+              $scope.to.loading = AwsData[action](provider.id, $scope.model.engine, newValue).then(handleResults, handleError);
+            }
+          });
+          $scope.to.loading = AwsData[action](provider.id, 'none', 'none').then(handleResults, handleError);
+          break;
+        default:
+          $scope.to.loading = AwsData[action](provider.id).then(handleResults, handleError);
+      }
 
       function handleResults(data) {
         $scope.to.options = data;
         return data;
       }
-
 
       function handleError(response) {
         var error = response.data;

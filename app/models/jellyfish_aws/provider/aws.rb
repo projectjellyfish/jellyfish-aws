@@ -2,12 +2,41 @@ module JellyfishAws
   module Provider
     class Aws < ::Provider
       def ec2_flavors
-        client.flavors.map do |f|
+        ec2_client.flavors.map do |f|
           {
             id: f.id, name: f.name, bits: f.bits, cores: f.cores, ram: f.ram,
             label: [f.name, f.id].join(' - '), value: f.id
           }
         end
+      end
+
+      def rds_engines
+        rds_client.describe_db_engine_versions.body['DescribeDBEngineVersionsResult']['DBEngineVersions'].map do |e|
+          {
+            value: e['Engine'].strip,
+            label: e['Engine'].strip
+          }
+        end.uniq
+      end
+
+      def rds_versions(engine)
+        return if engine.nil? || engine == 'none'
+        rds_client.describe_db_engine_versions({:engine=>engine}).body['DescribeDBEngineVersionsResult']['DBEngineVersions'].map do |e|
+          {
+            value: e['EngineVersion'].strip,
+            label: e['EngineVersion'].strip,
+          }
+        end
+      end
+
+      def rds_flavors(engine, version)
+        return [] if engine.nil? || engine == 'none'
+        rds_client.describe_orderable_db_instance_options(engine, {:engine_version=>version}).body['DescribeOrderableDBInstanceOptionsResult']['OrderableDBInstanceOptions'].map do |f|
+          {
+            value: f['DBInstanceClass'].strip,
+            label: f['DBInstanceClass'].strip
+          }
+        end.uniq.sort_by { |f| f[:value] }
       end
 
       def ec2_images
@@ -116,33 +145,82 @@ module JellyfishAws
         end
       end
 
-      def subnets
-        client.subnets.map do |s|
+      def vpcs
+        ec2_client.vpcs.map { |x| { label: "#{x.id} (#{x.tenancy})", value: x.id } }
+      end
+
+      def subnets(vpc_id)
+        ec2_client.subnets.map do |s|
+          next unless s.vpc_id == vpc_id
           {
             id: s.subnet_id, name: s.cidr_block, cidr: s.cidr_block, vpc_id: s.vpc_id,
-            label: s.cidr_block, value: s.subnet_id
+            label:  "#{s.subnet_id} (#{s.cidr_block})",value: s.subnet_id
           }
-        end
+        end.compact
       end
 
       def availability_zones
-        client.describe_availability_zones.body['availabilityZoneInfo'].map do |az|
+        ec2_client.describe_availability_zones.body['availabilityZoneInfo'].map do |az|
           next unless client.region == az['regionName']
           { label: az['zoneName'], value: az['zoneName'] }
         end.compact
       end
 
+      def key_names
+        ec2_client.describe_key_pairs.body['keySet'].map do |kn|
+          { label: kn['keyName'], value: kn['keyName']}
+        end.compact
+      end
+
+      def security_groups
+        ec2_client.describe_security_groups.body['securityGroupInfo'].map do |sg|
+          { label: "#{sg['groupId']} (#{sg['groupName'][0...30]})", value: sg['groupId']}
+        end.compact
+      end
+
+      def deprovision(service_id)
+        # TODO: REMOVE DEPENDENCY ON DELAYED JOBS
+        service = ::Service.where(id: service_id).first
+        service.delay.deprovision unless service.nil?
+
+        # TODO: SHOULD THIS BE TURNED INTO A REUSABLE FUNCTION?
+        # SUCCESS OR FAIL NOTIFICATION
+        service.status = ::Service.defined_enums['status']['stopping']
+        service.status_msg = 'stopping'
+        service.save
+
+        [ 'Service has been scheduled for deprovisioning.' ]
+      end
+
+      def ec2_client
+        @ec2_client ||= begin
+          Fog::Compute.new credentials
+        end
+      end
+
+      def s3_client
+        @s3_client ||= begin
+          Fog::Storage.new credentials
+        end
+      end
+
+      def rds_client
+        @rds_client ||= begin
+          # RDS ISSUES A WARNING IF PROVIDER IS PASSED
+          Fog::AWS::RDS.new credentials.except(:provider)
+        end
+      end
+
       private
 
-      def client
-        @client ||= begin
-          credentials = {
+      def credentials
+        @credentials ||= begin
+          {
             provider: 'AWS',
             aws_access_key_id: settings[:access_id],
             aws_secret_access_key: settings[:secret_key],
             region: settings[:region]
           }
-          Fog::Compute.new credentials
         end
       end
     end
