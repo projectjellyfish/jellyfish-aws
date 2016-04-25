@@ -32,13 +32,8 @@ module JellyfishAws
         ]
       end
 
-      def order_questions
-        [
-        ]
-      end
-
-      def service_class
-        'JellyfishAws::Service::Ec2'.constantize
+      def product_class
+        'JellyfishAws::Product::Ec2'.constantize
       end
     end
   end

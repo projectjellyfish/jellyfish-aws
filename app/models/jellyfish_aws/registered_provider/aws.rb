@@ -6,7 +6,7 @@ module JellyfishAws
 
         transaction do
           [
-            set('AWS', '1072ddc9-e04f-4d43-929b-8866ce7e6d3a')
+            set('AWS', 'f2025ea9-cae0-4990-8701-e885ef21e9b3')
           ].each { |s| create! s.merge!(type: 'JellyfishAws::RegisteredProvider::Aws') }
         end
       end

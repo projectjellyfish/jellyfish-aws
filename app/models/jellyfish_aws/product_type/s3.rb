@@ -6,7 +6,7 @@ module JellyfishAws
 
         transaction do
           [
-            set('S3 Instance', '11ca0e0e-617d-45f3-b10a-acf42d5e6ecc', provider_type: 'JellyfishAws::Provider::Aws', active: 'false')
+            set('S3 Instance', '31f97b65-6b61-47b6-ae12-38cf22e27872', provider_type: 'JellyfishAws::Provider::Aws', active: 'false')
           ].each do |s|
             create! s.merge!(type: 'JellyfishAws::ProductType::S3')
           end
@@ -26,13 +26,8 @@ module JellyfishAws
         ]
       end
 
-      def order_questions
-        [
-        ]
-      end
-
-      def service_class
-        'JellyfishAws::Service::S3'.constantize
+      def product_class
+        'JellyfishAws::Product::S3'.constantize
       end
     end
   end
