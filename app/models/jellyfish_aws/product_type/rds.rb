@@ -26,19 +26,14 @@ module JellyfishAws
           { name: :engine, value_type: :string, field: :aws_rds_engines, required: true },
           { name: :version, value_type: :string, field: :aws_rds_versions, required: true },
           { name: :flavor_id, value_type: :string, field: :aws_rds_flavors, required: true },
-          { name: :allocated_storage, value_type: :string, field: :text, label: 'Allocated Storage', required: true }
-        ]
-      end
-
-      def order_questions
-        [
+          { name: :allocated_storage, value_type: :string, field: :text, label: 'Allocated Storage', required: true },
           { name: :master_username, value_type: :string, field: :aws_rds_admin_username, required: true },
           { name: :master_password, value_type: :string, field: :aws_rds_admin_password, required: true }
         ]
       end
 
-      def service_class
-        'JellyfishAws::Service::RDS'.constantize
+      def product_class
+        'JellyfishAws::Product::RDS'.constantize
       end
     end
   end
